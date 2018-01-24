@@ -1,34 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    {{#router}}
     <router-view/>
-    {{else}}
-    <HelloWorld/>
-    {{/router}}
   </div>
 </template>
 
 <script>
-{{#unless router}}
-import HelloWorld from './components/HelloWorld'
-
-{{/unless}}
 export default {
-  name: 'App'{{#router}}{{else}},
-  components: {
-    HelloWorld
-  }{{/router}}
+  name: 'App'
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+
+html,
+body,
+#app,
+.admin
+  background-color: #F1F1F1
+  height: 100%
+  width: 100%
+  margin: 0px
+  padding: 0px
+
+
+.bulma
+  @import "../node_modules/bulma/bulma"
+  *
+  box-sizing: border-box
+
+
 </style>
