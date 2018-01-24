@@ -3,7 +3,7 @@
 
     <!-- notification -->
     <div v-if="notification.message" :class="'notification is-' + notification.type">
-      <button class="delete" @click="hideNotifications"></button>{{notification.message}}
+      <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
     </div>
 
     <h3 class="is-size-3">Pages</h3>
@@ -23,7 +23,7 @@
                 <div class="dropdown" :class="{'is-active': dropdownActive}" @click="toggleDropdown">
                   <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span>{{currentPage.name || dropDownLabel}}</span>
+                      <span>\{{currentPage.name || dropDownLabel}}</span>
                       <span class="icon is-small">
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                       </span>
@@ -32,7 +32,7 @@
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
                       <a class="dropdown-item" v-if="page && page.name" v-for="(page, key) in pages" :key="page.name" @click="selectPage(key)">
-                        {{page.name}}
+                        \{{page.name}}
                       </a>
                       <hr class="dropdown-divider">
                       <a @click="addPage" class="dropdown-item">
@@ -47,7 +47,7 @@
           <div v-for="(field, key) in currentPage.fields" class="field columns" :key="key">
             <div class="column is-one-third">
               <span class="tag">
-                {{key}}
+                \{{key}}
                 <button class="delete is-small" @click="deletePageField(key)"></button>
               </span>
             </div>
