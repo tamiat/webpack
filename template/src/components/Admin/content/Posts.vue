@@ -9,7 +9,7 @@
 
     <!-- notification -->
     <div v-if="notification.message" :class="'notification is-' + notification.type">
-      <button class="delete" @click="hideNotifications"></button>{{notification.message}}
+      <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
     </div>
 
     <!-- the new post form loaded via vue router -->
@@ -30,7 +30,7 @@
           <tr v-for="(post, index) in posts" :key="index">
             <td class="post-title-cell">
               <router-link :to="'/admin/posts/edit/' + post['.key']">
-                {{post.title}}
+                \{{post.title}}
               </router-link>
 
               <div class="actions">
@@ -41,9 +41,9 @@
               </div>
             </td>
 
-            <td class="post-author-cell">{{post.author}}</td>
-            <td class="post-tags-cell">{{postDate(post.created)}}</td>
-            <td class="post-tags-cell">{{joined(post.tags)}}</td>
+            <td class="post-author-cell">\{{post.author}}</td>
+            <td class="post-tags-cell">\{{postDate(post.created)}}</td>
+            <td class="post-tags-cell">\{{joined(post.tags)}}</td>
           </tr>
         </tbody>
       </table>
