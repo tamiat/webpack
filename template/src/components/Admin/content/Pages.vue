@@ -23,7 +23,7 @@
                 <div class="dropdown" :class="{'is-active': dropdownActive}" @click="toggleDropdown">
                   <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span>\{{currentPage.name \|| dropDownLabel}}</span>
+                      <span>\{{currentPage.name || dropDownLabel}}</span>
                       <span class="icon is-small">
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                       </span>
@@ -114,7 +114,7 @@ export default {
   mixins: [notifier],
   computed: {
     currentPage() {
-      return this.pages[this.currentPageKey] \|| {}
+      return this.pages[this.currentPageKey] || {}
     },
     currentPageRef() {
       return this.$firebaseRefs.pages.child(this.currentPageKey)
