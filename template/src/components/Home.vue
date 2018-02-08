@@ -24,9 +24,9 @@
     <section class="hero">
       <div class="background-image" :style="{'background-image': `url(${require('../assets/img/hero.jpg')})`}"></div>
       <h1>
-        {{settings.title}}
+        \{{settings.title}}
       </h1>
-      <h3>{{settings.description}}</h3>
+      <h3>\{{settings.description}}</h3>
       <div class="cta">
         <a href="http://tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox/" class="btn">Download it Here</a>
       </div>
@@ -76,20 +76,20 @@
       <hr>
 
       <div class="wrapper">  		
-    		<div class="card radius shadowDepth1" v-for="post in posts" v-if="post.body">
+    		<div class="card radius shadowDepth1" v-if="post" v-for="post in posts" :key="post.created">
     			<div class="card__image border-tlr-radius">
     				<img :src="post.img" alt="image" class="border-tlr-radius">
           </div>
     			<div class="card__content card__padding">
     				<article class="card__article">
-	    				<h2><a href="#">{{post.title}}</a></h2>
+	    				<h2><a href="#">\{{post.title}}</a></h2>
 	    				<p v-html="post.body"></p>
 	    			</article>
     			</div>
     			<div class="card__action">	
     				<div class="card__author">
     					<div class="card__author-content">
-    						By <a href="#">{{post.author}}</a>
+    						By <a href="#">\{{post.author}}</a>
     					</div>
     				</div>
     			</div>

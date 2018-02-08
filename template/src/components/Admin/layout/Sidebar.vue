@@ -8,7 +8,7 @@
             <i :class="['fa', item.icon]"></i>
           </span>
           <p class="has-text-centered">
-            {{ item.name }}
+            \{{ item.name }}
           </p>
         </router-link>
       </li>
