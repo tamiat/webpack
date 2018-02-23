@@ -10,7 +10,7 @@
     <!-- notification -->
     <transition mode="out-in" name="fade">
       <div v-if="notification.message" :class="'notification is-' + notification.type">
-        <button class="delete" @click="hideNotifications"></button>{{notification.message}}
+        <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
       </div>
     </transition>
 
@@ -40,13 +40,13 @@
     <div class="filters">
       <div class="states">
         <a class="state" @click="setState('all')" :class="{ 'activeState': selectedState === 'all' }">
-          All<span class="stateCnt">({{ allPosts }})</span>
+          All<span class="stateCnt">(\{{ allPosts }})</span>
         </a>|
         <a class="state" @click="setState('published')" :class="{ 'activeState': selectedState === 'published' }">
-          Published<span class="stateCnt">({{ publishedPosts.length}})</span>
+          Published<span class="stateCnt">(\{{ publishedPosts.length}})</span>
         </a>|
         <a class="state" @click="setState('saved')" :class="{ 'activeState': selectedState === 'saved' }">
-          Saved<span class="stateCnt">({{ savedPosts.length}})</span>
+          Saved<span class="stateCnt">(\{{ savedPosts.length}})</span>
         </a>
       </div>
     <!-- Dropdown filters -->
@@ -92,7 +92,7 @@
             <td class="post-title-cell">
               <checkbox v-model="post.selected" />
               <router-link :to="'/admin/posts/edit/' + post['.key']">
-                {{post.title}}
+                \{{post.title}}
               </router-link>
 
               <div class="actions">
@@ -102,12 +102,12 @@
                 <span @click="deletePost(post)" class="has-text-danger">Delete</span>
               </div>
             </td>
-            <td class="post-category-cell">{{post.category}}</td>
-            <td class="post-author-cell">{{post.author}}</td>
-            <td class="post-tags-cell">{{postDate(post.created)}}</td>
+            <td class="post-category-cell">\{{post.category}}</td>
+            <td class="post-author-cell">\{{post.author}}</td>
+            <td class="post-tags-cell">\{{postDate(post.created)}}</td>
             <td class="post-tags-cell">
               <span v-if="post.tags">
-                {{joined(post.tags)}}
+                \{{joined(post.tags)}}
               </span>
             </td>
           </tr>

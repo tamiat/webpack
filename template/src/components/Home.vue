@@ -7,19 +7,19 @@
           <figure class="websiteLogo" v-if="loadLogo">
             <img :src="loadLogo" alt="image">
           </figure>
-        {{ loadLogo ? null : 'Website Logo' }}
+        \{{ loadLogo ? null : 'Website Logo' }}
         </a>
       </h2>
 
       <nav>
         <li v-for="(link, index) in nav" :key="index">
-          <a v-if="link.isAbsolute" :href="link.path">{{link.name}}</a>
-          <router-link v-else :to="link.path">{{link.name}}</router-link>
+          <a v-if="link.isAbsolute" :href="link.path">\{{link.name}}</a>
+          <router-link v-else :to="link.path">\{{link.name}}</router-link>
 
           <ul v-if="link.children" class="sub-nav">
             <li v-for="(subLink, index) in link.children" :key="index">
-              <a v-if="subLink.isAbsolute" :href="subLink.path">{{subLink.name}}</a>
-              <router-link v-else :to="subLink.path">{{subLink.name}}</router-link>
+              <a v-if="subLink.isAbsolute" :href="subLink.path">\{{subLink.name}}</a>
+              <router-link v-else :to="subLink.path">\{{subLink.name}}</router-link>
             </li>
           </ul>
         </li>
@@ -29,9 +29,9 @@
     <section class="hero">
       <div class="background-image" :style="{'background-image': `url(${require('../assets/img/hero.jpg')})`}"></div>
       <h1>
-        {{settings.title}}
+        \{{settings.title}}
       </h1>
-      <h3>{{settings.description}}</h3>
+      <h3>\{{settings.description}}</h3>
       <div class="cta">
         <a href="http://tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox/" class="btn">Download it Here</a>
       </div>
@@ -87,14 +87,14 @@
           </div>
           <div class="card__content card__padding">
             <article class="card__article">
-              <h2><a href="#">{{post.title}}</a></h2>
+              <h2><a href="#">\{{post.title}}</a></h2>
               <p v-html="post.body"></p>
             </article>
           </div>
           <div class="card__action">
             <div class="card__author">
               <div class="card__author-content">
-                By <a href="#">{{post.author}}</a>
+                By <a href="#">\{{post.author}}</a>
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@
 
         <!-- warning notification -->
         <div v-if="err.code" class="notification is-warning">
-          <button class="delete" @click="hideNotif"></button>{{err.message}}
+          <button class="delete" @click="hideNotif"></button>\{{err.message}}
         </div>
 
         <!-- warning notification -->

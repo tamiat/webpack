@@ -4,7 +4,7 @@
     <!-- notification -->
     <transition mode="out-in" name="fade">
       <div v-if="notification.message" :class="'notification is-' + notification.type">
-        <button class="delete" @click="hideNotifications"></button>{{notification.message}}
+        <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
       </div>
     </transition>
 

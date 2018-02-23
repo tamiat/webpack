@@ -2,7 +2,7 @@
 <div class="dropdown" :class="{'is-active': dropdownActive}" @click="toggleDropdown">
   <div class="dropdown-trigger">
     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-      <span>{{selectedElement.label}}</span>
+      <span>\{{selectedElement.label}}</span>
       <span class="icon is-small">
         <i class="fa fa-angle-down" aria-hidden="true"></i>
       </span>
@@ -11,7 +11,7 @@
   <div class="dropdown-menu" id="dropdown-menu" role="menu">
     <div class="dropdown-content">
       <a class="dropdown-item" v-if="option" v-for="(option, optionKey) in options" :key="optionKey" @click="selectOption(option)">
-        {{option.label ? option.label : null }}
+        \{{option.label ? option.label : null }}
       </a>
     </div>
   </div>

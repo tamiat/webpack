@@ -1,7 +1,7 @@
 <template>
 <label>
   <input type="checkbox" :checked="value" :disabled="disabled" @change="updateCheckbox">
-  <span>{{ label }}</span>
+  <span>\{{ label }}</span>
 </label>
 </template>
 <script>

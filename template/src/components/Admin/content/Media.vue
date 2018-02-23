@@ -4,7 +4,7 @@
       <a class="img-container" v-for="(img, key) in images" :key="key" v-if="img.src && img.path">
         <div @click="deleteImage(img.path, key)" class="delete delete-button"></div>
         <div class="image-div" :style="{ 'background-image': 'url(' + img.src + ')' }"></div>
-        <div class="info-tab"> {{img.name}} </div>
+        <div class="info-tab"> \{{img.name}} </div>
       </a>
     </div>
   </div>

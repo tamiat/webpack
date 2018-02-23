@@ -4,7 +4,7 @@
     <!-- notification -->
     <transition mode="out-in" name="fade">
       <div v-if="notification.message" :class="'notification is-' + notification.type">
-        <button class="delete" @click="hideNotifications"></button>{{notification.message}}
+        <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
       </div>
     </transition>
     <!-- modal for add setting -->
@@ -45,7 +45,7 @@
           <div v-for="(field, key) in settings" class="field columns" :key="key" v-if="key !== '.key'">
             <div class="column is-one-third">
               <span class="tag">
-                {{key}}
+                \{{key}}
                 <button class="delete is-small" @click="deleteSettingsField(key)"></button>
               </span>
             </div>

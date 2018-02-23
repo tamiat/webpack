@@ -3,7 +3,7 @@
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-        <p class="modal-card-title">{{ header }}</p>
+        <p class="modal-card-title">\{{ header }}</p>
         <button class="delete is-medium" aria-label="close" @click="$emit('close')"></button>
     </header>
     <section class="modal-card-body" v-if="kind == 'addField' || kind == 'addPage' || kind == 'addSetting'">

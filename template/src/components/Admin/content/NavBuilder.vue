@@ -40,7 +40,7 @@
           <p class="is-size-4">menu</p>
           <ul v-for="(item, index) in menu" :key="index" class="nav">
             <li>
-              {{item.name}}: {{item.path}}
+              \{{item.name}}: \{{item.path}}
 
               <span class="link-actions">
                 <span class="has-text-danger fa fa-trash" @click="removeLink(item)"></span>
@@ -53,7 +53,7 @@
               <!-- render children links -->
               <ul v-if="item.children" class="sub-nav">
                 <li v-for="(child, key) in item.children" :key="key">
-                  {{child.name}}: {{child.path}}
+                  \{{child.name}}: \{{child.path}}
 
                   <span class="link-actions">
                     <span class="has-text-danger fa fa-trash" @click="removeSubLink(key, item)"></span>

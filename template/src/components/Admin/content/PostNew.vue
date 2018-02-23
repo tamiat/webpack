@@ -46,7 +46,7 @@
           <label class="label">Tags</label>
           <div class="control">
             <div class="tags tagscontainer">
-            <span @click="removeTag(index)" v-for="(tag, index) in tags" :key="index" class="tag is-info pointer">{{tag}}<button class="delete is-small"></button></span>
+            <span @click="removeTag(index)" v-for="(tag, index) in tags" :key="index" class="tag is-info pointer">\{{tag}}<button class="delete is-small"></button></span>
             <input placeholder="Tags" @keypress.44.prevent="styleTags" @keyup.enter="styleTags" type="text" class="input" maxlength="25" v-model="inputData">
             </div>
             <p>Seperate tags with commas</p>
@@ -76,7 +76,7 @@
 
     <!-- notification -->
     <div v-if="notification.message" :class="'notification is-' + notification.type">
-      <button class="delete" @click="hideNotifications"></button>{{notification.message}}
+      <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
     </div>
 
     <!-- the form buttons -->
