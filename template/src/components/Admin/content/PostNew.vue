@@ -1,7 +1,6 @@
 <template>
   <div class="box">
 
-    <h3>Add new post</h3>
     <div class="columns">
 
       <div class="column is-two-thirds">
@@ -10,7 +9,7 @@
         <div class="field">
           <label class="label">Post's title</label>
           <div class="control">
-            <input type="text" class="input" v-model="title">
+            <input type="text" class="input" placeholder="Title" v-model="title">
           </div>
         </div>
 
@@ -18,6 +17,15 @@
         <quill-editor v-model="body" :options="editorOptions">
         </quill-editor>
         <input type="file" id="getImage" style="display: none;" @change="uploadImage">
+
+        <!-- Category field -->
+        <br>
+        <div class="field">
+          <label class="label">Category</label>
+          <div class="control">
+            <input type="text" class="input" placeholder="Category" v-model="category" maxlength="25">
+          </div>
+        </div>
 
       </div>
 
@@ -28,7 +36,7 @@
         <div class="field">
           <label class="label">Author</label>
           <div class="control">
-            <input type="text" class="input" v-model="author" required>
+            <input type="text" class="input" placeholder="Author" v-model="author" maxlength="25" required>
             <p>this field is for demo purposes only</p>
           </div>
         </div>
@@ -37,12 +45,15 @@
         <div class="field">
           <label class="label">Tags</label>
           <div class="control">
-            <input type="text" class="input" v-model="tags">
+            <div class="tags tagscontainer">
+            <span @click="removeTag(index)" v-for="(tag, index) in tags" :key="index" class="tag is-info pointer">{{tag}}<button class="delete is-small"></button></span>
+            <input placeholder="Tags" @keypress.44.prevent="styleTags" @keyup.enter="styleTags" type="text" class="input" maxlength="25" v-model="inputData">
+            </div>
             <p>Seperate tags with commas</p>
           </div>
         </div>
         <div class="field">
-          <label class="label">Image</label>
+          <label class="label">Featured image</label>
           <div class="control">
             <img :src="featuredImage">
             <div class="file">
@@ -65,11 +76,12 @@
 
     <!-- notification -->
     <div v-if="notification.message" :class="'notification is-' + notification.type">
-      <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
+      <button class="delete" @click="hideNotifications"></button>{{notification.message}}
     </div>
 
     <!-- the form buttons -->
-    <button type="submit" class="button is-info" @click="add">Add</button>
+    <button type="submit" class="button is-success" @click="add('published')">Publish</button>
+    <button type="submit" class="button is-info" @click="add('saved')">Save Draft</button>
     <router-link to="/admin/posts" class="button is-danger">Cancel</router-link>
   </div>
 </template>
@@ -77,21 +89,22 @@
 <script>
 import firebase from 'firebase'
 
-import { mediaRef } from '../../../config';
-import VueQuillEditor from 'vue-quill-editor';
-import editorOptions from './editor-options';
-import imageLoader from '../../../mixins/image-loader';
-import notifier from '../../../mixins/notifier';
+import { mediaRef } from '@/firebase_config'
+import editorOptions from './editor-options'
+import imageLoader from '@/mixins/image-loader'
+import notifier from '@/mixins/notifier'
 
 export default {
   name: 'post-new',
-  data() {
+  data () {
     return {
       title: '',
       body: '',
       author: '',
-      tags: '',
+      tags: [],
+      inputData: '',
       featuredImage: '',
+      category: '',
       editorOptions
     }
   },
@@ -101,39 +114,63 @@ export default {
   props: ['add-post'],
   mixins: [imageLoader, notifier],
   methods: {
-    add() {
+    add (state) {
       console.log(this.featuredImage)
       if (this.title) {
         this.addPost({
           title: this.title,
           body: this.body,
           author: this.author,
-          tags: this.tags.split(','),
+          tags: this.tags,
           img: this.featuredImage,
-          created: Date.now()
+          category: this.category,
+          created: Date.now(),
+          selected: false,
+          state: state
         })
+        this.$router.push({ path: '/admin/posts' })
       } else {
-        this.showNotification('warning', 'The title field can not be empty');
+        this.showNotification('warning', 'The title field can not be empty')
       }
-
     },
     uploadFeaturedImage (e) {
       console.log(e)
-      let file = e.target.files[0];
-      let storageRef = firebase.storage().ref('images/' + file.name);
+      let file = e.target.files[0]
+      let storageRef = firebase.storage().ref('images/' + file.name)
 
-      storageRef.put(file).then((function (snapshot) {
+      storageRef.put(file).then((snapshot) => {
         console.log(snapshot)
-        this.featuredImage = snapshot.downloadURL;
+        this.featuredImage = snapshot.downloadURL
         if (Object.values(this.media).find(e => e.path === snapshot.ref.fullPath)) return // this prevents duplicate entries in the media object
         this.$firebaseRefs.media.push({
-          src: snapshot.downloadURL, 
+          src: snapshot.downloadURL,
           path: snapshot.ref.fullPath,
           name: snapshot.metadata.name
         })
-      }).bind(this));
+      })
+    },
+    styleTags () {
+      if (this.inputData !== '') {
+        this.tags.push(`${this.inputData.trim()}`)
+        this.inputData = ''
+      }
+    },
+    removeTag (index) {
+      this.tags.splice(index, 1)
     }
   }
 }
 
 </script>
+
+<style>
+.tagscontainer {
+  border: 2px solid #f2f2f2;
+  border-radius: 5px;
+  padding: 5px;
+}
+.pointer {
+  cursor: pointer;
+}
+
+</style>

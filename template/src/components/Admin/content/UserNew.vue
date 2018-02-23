@@ -8,7 +8,7 @@
       <div class="column is-two-thirds">
         <div v-for="field in fields" class="field columns">
           <div class="column">
-            <label class="label is-capitalized">\{{field.label}}</label>
+            <label class="label is-capitalized">{{field.label}}</label>
           </div>
           <div class="control column">
             <input :type="field.type" class="input" :name="field.label">

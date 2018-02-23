@@ -3,20 +3,25 @@
 
     <header>
       <h2 class="is-title is-size-4">
-        <a href="#">Website Logo</a>
+        <a href="#">
+          <figure class="websiteLogo" v-if="loadLogo">
+            <img :src="loadLogo" alt="image">
+          </figure>
+        {{ loadLogo ? null : 'Website Logo' }}
+        </a>
       </h2>
+
       <nav>
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">Products</a>
-        </li>
-        <li>
-          <a href="#">About</a>
-        </li>
-        <li>
-          <a href="#">Contacts</a>
+        <li v-for="(link, index) in nav" :key="index">
+          <a v-if="link.isAbsolute" :href="link.path">{{link.name}}</a>
+          <router-link v-else :to="link.path">{{link.name}}</router-link>
+
+          <ul v-if="link.children" class="sub-nav">
+            <li v-for="(subLink, index) in link.children" :key="index">
+              <a v-if="subLink.isAbsolute" :href="subLink.path">{{subLink.name}}</a>
+              <router-link v-else :to="subLink.path">{{subLink.name}}</router-link>
+            </li>
+          </ul>
         </li>
       </nav>
     </header>
@@ -24,9 +29,9 @@
     <section class="hero">
       <div class="background-image" :style="{'background-image': `url(${require('../assets/img/hero.jpg')})`}"></div>
       <h1>
-        \{{settings.title}}
+        {{settings.title}}
       </h1>
-      <h3>\{{settings.description}}</h3>
+      <h3>{{settings.description}}</h3>
       <div class="cta">
         <a href="http://tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox/" class="btn">Download it Here</a>
       </div>
@@ -75,26 +80,26 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
       <hr>
 
-      <div class="wrapper">  		
-    		<div class="card radius shadowDepth1" v-if="post" v-for="post in posts" :key="post.created">
-    			<div class="card__image border-tlr-radius">
-    				<img :src="post.img" alt="image" class="border-tlr-radius">
+      <div class="wrapper">
+        <div class="card radius shadowDepth1" v-if="post" v-for="post in posts" :key="post.created">
+          <div class="card__image border-tlr-radius">
+            <img :src="post.img" alt="image" class="border-tlr-radius">
           </div>
-    			<div class="card__content card__padding">
-    				<article class="card__article">
-	    				<h2><a href="#">\{{post.title}}</a></h2>
-	    				<p v-html="post.body"></p>
-	    			</article>
-    			</div>
-    			<div class="card__action">	
-    				<div class="card__author">
-    					<div class="card__author-content">
-    						By <a href="#">\{{post.author}}</a>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+          <div class="card__content card__padding">
+            <article class="card__article">
+              <h2><a href="#">{{post.title}}</a></h2>
+              <p v-html="post.body"></p>
+            </article>
+          </div>
+          <div class="card__action">
+            <div class="card__author">
+              <div class="card__author-content">
+                By <a href="#">{{post.author}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="reviews">
@@ -158,7 +163,7 @@
 </template>
 
 <script>
-import { settingsRef, postsRef  } from '../config';
+import { settingsRef, postsRef, navRef, mediaRef } from '../firebase_config'
 
 export default {
   name: 'home',
@@ -171,6 +176,24 @@ export default {
     posts: {
       source: postsRef,
       asObject: true
+    },
+    nav: {
+      source: navRef
+    },
+    media: {
+      source: mediaRef
+    }
+  },
+  computed: {
+    loadLogo () {
+      var i = this.media.length
+      var url = null
+      while (i--) {
+        if (this.media[i].name === 'WebsiteLogo') {
+          url = this.media[i].src
+        }
+      }
+      return url
     }
   }
 }
@@ -192,6 +215,27 @@ html {
 ul,
 nav {
   list-style: none;
+}
+
+ul li,
+nav li {
+  position: relative;
+}
+
+.sub-nav {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  padding-top: 10px;
+}
+
+.sub-nav li {
+  margin-left: 0px;
+}
+
+li:hover .sub-nav, .sub-nav:hover {
+  display: block;
 }
 
 a {
@@ -267,11 +311,6 @@ ul.grid {
   justify-content: center;
 }
 
-
-
-
-
-
 /*-------------
        Header
   -------------*/
@@ -320,7 +359,6 @@ header nav li:last-child {
   }
 }
 
-
 @media (max-width: 700px) {
   header {
     flex-direction: column;
@@ -330,10 +368,6 @@ header nav li:last-child {
     margin-bottom: 15px;
   }
 }
-
-
-
-
 
 /*----------------
        Hero Section
@@ -407,11 +441,6 @@ header nav li:last-child {
   }
 }
 
-
-
-
-
-
 /*--------------------
        Our Work Section
   ---------------------*/
@@ -439,7 +468,6 @@ header nav li:last-child {
   flex-basis: 60%;
 }
 
-
 @media (max-width: 1000px) {
 
   .our-work .grid li.small,
@@ -447,11 +475,6 @@ header nav li:last-child {
     flex-basis: 100%;
   }
 }
-
-
-
-
-
 
 /*----------------------
        Features Section
@@ -495,18 +518,12 @@ header nav li:last-child {
   }
 }
 
-
 @media (max-width: 600px) {
 
   .features .grid li {
     flex-basis: 100%;
   }
 }
-
-
-
-
-
 
 /*--------------------
        Reviews Section
@@ -556,8 +573,8 @@ header nav li:last-child {
  }
 
 .card {
-	background-color: #fff;
-	margin-bottom: 1.6rem;
+  background-color: #fff;
+  margin-bottom: 1.6rem;
   width: 300px;
   display: inline-block;
   margin: 30px;
@@ -565,93 +582,87 @@ header nav li:last-child {
 }
 
 .card__padding {
-	padding: 1rem;
+  padding: 1rem;
 }
- 
+
 .card__image {
-	min-height: 100px;
-	background-color: #eee;
+  min-height: 100px;
+  background-color: #eee;
 }
-	.card__image img {
-		width: 100%;
-		max-width: 100%;
-		display: block;
-	}
+  .card__image img {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
 
 .card__content {
-	position: relative;
+  position: relative;
 }
 
 /* card meta */
 .card__meta time {
-	font-size: 1.5rem;
-	color: #bbb;
-	margin-left: 0.8rem;
+  font-size: 1.5rem;
+  color: #bbb;
+  margin-left: 0.8rem;
 }
 
 /* card article */
 .card__article p {
-	height: 100px;
+  height: 100px;
   overflow: hidden;
   margin-bottom: 0px;
 }
 .card__article a {
-	text-decoration: none;
-	color: #444;
-	transition: all 0.5s ease;
+  text-decoration: none;
+  color: #444;
+  transition: all 0.5s ease;
 }
-	.card__article a:hover {
-		color: #2980b9;
-	}
+  .card__article a:hover {
+    color: #2980b9;
+  }
 
 /* card action */
 .card__action {
-	overflow: hidden;
-	padding-right: 1.6rem;
-	padding-left: 1.6rem;
-	padding-bottom: 1.6rem;
+  overflow: hidden;
+  padding-right: 1.6rem;
+  padding-left: 1.6rem;
+  padding-bottom: 1.6rem;
 }
-	 
-.card__author {}
 
-	.card__author img,
-	.card__author-content {
-		display: inline-block;
-		vertical-align: middle;
-	}
+.card__author img,
+.card__author-content {
+  display: inline-block;
+  vertical-align: middle;
+}
 
-	.card__author img{
-		border-radius: 50%;
-		margin-right: 0.6em;
-	}
+.card__author img{
+  border-radius: 50%;
+  margin-right: 0.6em;
+}
 
 .card__share {
-	float: right;
-	position: relative;
-	margin-top: -42px;
+  float: right;
+  position: relative;
+  margin-top: -42px;
 }
 
 .card__social {
-	position: absolute;
-	top: 0;
-	right: 0;
-	visibility: hidden;
-	width: 160px;
-	transform: translateZ(0);
-  	transform: translateX(0px);
-  	transition: transform 0.35s ease;
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+  width: 160px;
+  transform: translateZ(0);
+    transform: translateX(0px);
+    transition: transform 0.35s ease;
 }
-	.card__social--active {
-		visibility: visible;
-		/*z-index: 3;*/
-		transform: translateZ(0);
- 		transform: translateX(-48px);
-  		transition: transform 0.35s ease;
-	}
-
-
-
-
+  .card__social--active {
+    visibility: visible;
+    /*z-index: 3;*/
+    transform: translateZ(0);
+     transform: translateX(-48px);
+      transition: transform 0.35s ease;
+  }
 
 /*---------------------
        Contact Section
@@ -683,7 +694,6 @@ header nav li:last-child {
   padding: 18px 42px;
 }
 
-
 @media (max-width: 800px) {
 
   .contact form input {
@@ -691,11 +701,6 @@ header nav li:last-child {
     margin: 0 0 20px 0;
   }
 }
-
-
-
-
-
 
 /*-------------
        Footer
@@ -747,16 +752,16 @@ footer p a {
   }
 }
 
-
-
-
-
-
 /* -- Demo ads -- */
 
 @media (max-width: 1200px) {
   #bsaHolder {
     display: none;
   }
+}
+
+.websiteLogo {
+  max-height: 128px;
+  max-width: 128px;
 }
 </style>

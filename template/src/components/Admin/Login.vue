@@ -5,7 +5,7 @@
 
         <!-- notification -->
         <div v-if="notification.message" :class="'notification is-' + notification.type">
-          <button class="delete" @click="hideNotifications"></button>\{{notification.message}}
+          <button class="delete" @click="hideNotifications"></button>{{notification.message}}
         </div>
 
         <!-- tamiat CMS logo -->
@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-import notifier from '../../mixins/notifier';
+import firebase from 'firebase'
+import notifier from '../../mixins/notifier'
 
 export default {
   name: 'log-in',
-  data() {
+  data () {
     return {
       email: '',
       password: ''
@@ -51,16 +51,16 @@ export default {
   },
   mixins: [notifier],
   methods: {
-    login() {
+    login () {
       // login to firebase with email and password
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then((user) => {
           // redirect to the admin page
-          this.$router.push('/admin');
+          this.$router.push('/admin')
         })
         .catch((error) => {
           // display an warning notification
-          this.showNotification('warning', error.message);
+          this.showNotification('warning', error.message)
         })
     }
   }

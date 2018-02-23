@@ -1,9 +1,14 @@
 <template>
   <nav class="navbar" id="navbar">
 
+  <!-- modal for post delete -->
+    <transition mode="out-in" name="fade">
+      <modal @close="showModal = false" :kind="kind" @confirmLogout='confirmLogout()' v-if="showModal" :header="header"/>
+    </transition>
+
     <!-- the navbar brand -->
     <div class="navbar-brand">
-      <router-link class="navbar-item" to="/">
+      <router-link class="navbar-item logo" to="/admin">
         <img src="/static/img/logo.png" alt="Tamiat CMS logo">
       </router-link>
       <div class="navbar-burger burger" data-target="navbar" @click="toggleMenu">
@@ -17,7 +22,7 @@
     <div class="navbar-menu" id="navbar" :class="{'is-active': mobileMenuIsActive}">
       <div class="navbar-end">
         <span class="navbar-item">
-          \{{currentUser.email}}
+          {{currentUser.email}}
         </span>
         <span class="navbar-item sign-out" @click="signOut">
           <span class="icon is-medium has-text-centered">
@@ -31,34 +36,44 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-import { usersRef } from '../../../config';
-
+import firebase from 'firebase'
+import { usersRef } from '@/firebase_config'
+import modal from '@/components/shared/Modal'
 export default {
   name: 'navbar',
-  data() {
+  data () {
     return {
       mobileMenuIsActive: false,
-      currentUser: firebase.auth().currentUser
+      currentUser: firebase.auth().currentUser,
+      showModal: false,
+      header: 'Are you sure you want to logout?',
+      kind: 'logout'
     }
   },
   firebase: {
     users: usersRef
   },
   methods: {
-    signOut() {
+    signOut () {
+      this.showModal = true
+    },
+    confirmLogout () {
       // sign the current user out
       firebase.auth().signOut()
         .then(() => {
-          this.$router.push('/');
+          this.showModal = false
+          this.$router.push('/')
         })
         .catch(() => {
-          console.log('sign out fails');
+          console.log('sign out fails')
         })
     },
-    toggleMenu() {
-      this.mobileMenuIsActive = !this.mobileMenuIsActive;
+    toggleMenu () {
+      this.mobileMenuIsActive = !this.mobileMenuIsActive
     }
+  },
+  components: {
+    modal
   }
 }
 
@@ -74,6 +89,14 @@ $navbarColor: #aaaaaa;
   width: 100%;
   background-color: $navbarBg;
 
+  .logo {
+    z-index: 9999;
+    background: #fff;
+    &:hover {
+      background: whitesmoke;
+    }
+  }
+
   .navbar-item {
     color: $navbarColor;
     &:hover {
@@ -83,6 +106,20 @@ $navbarColor: #aaaaaa;
 
   .sign-out {
     cursor: pointer;
+  }
+}
+@media screen and (max-width: 1023px) {
+  #navbar {
+    .navbar-menu {
+      width: auto;
+      right: 0;
+    }
+    .sign-out {
+      text-align: right;
+    }
+    .navbar-burger span {
+      background: #fff;
+    }
   }
 }
 </style>

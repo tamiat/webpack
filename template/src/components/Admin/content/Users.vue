@@ -24,13 +24,13 @@
         <tbody>
           <tr v-for="(user, index) in guests" :key="index">
             <td class="username-cell">
-              \{{user.username}}
+              {{user.username}}
               <div class="actions">
                 <span @click="approve(user)" class="approve has-text-success">Approve</span>
               </div>
             </td>
-            <td class="email-cell">\{{user.email}}</td>
-            <td class="role-cell">\{{user.role}}</td>
+            <td class="email-cell">{{user.email}}</td>
+            <td class="role-cell">{{user.role}}</td>
           </tr>
         </tbody>
       </table>
@@ -50,15 +50,15 @@
         <tbody>
           <tr v-for="(user, index) in admins" :key="index" :class="{'logged-in' : currentUser.uid === user['.key']}">
             <td class="username-cell">
-              \{{user.username}}
+              {{user.username}}
               <div class="actions">
                 <!-- display a delete button below the current logged in user -->
                 <span v-if="currentUser.uid === user['.key']" @click="deleteCurrentUser" class=" has-text-danger">Delete</span>
                 <span v-else @click="ban(user)" class="ban has-text-danger">Ban</span>
               </div>
             </td>
-            <td class="email-cell">\{{user.email}}</td>
-            <td class="role-cell">\{{user.role}}</td>
+            <td class="email-cell">{{user.email}}</td>
+            <td class="role-cell">{{user.role}}</td>
           </tr>
         </tbody>
 
